@@ -1,14 +1,14 @@
-import logo from './logo.svg';
-import './App.css';
-import './components/Expenses.css';
-import ExpenseItem from "./components/ExpenseItem";
-import ExpensesFilter from './components/Expenses/ExpensesFilter';
-import { useState } from 'react';
+import './App.css'
+import './components/Expenses.css'
+import ExpenseItem from "./components/ExpenseItem"
+import ExpensesFilter from './components/Expenses/ExpensesFilter'
+import { useState } from 'react'
+import NewExpense from './components/NewExpenses/NewExpense.js'
 
 function App() {
-  const [filteredYear, setFilteredYear] = useState("2025");
+  const [filteredYear, setFilteredYear] = useState("2025")
 
-  const all_expenses = [
+  const [expenses, setExpenses] = useState([
     { 
       date: new Date(2023, 0, 10), 
       title: 'New book', 
@@ -39,19 +39,26 @@ function App() {
       title: 'Bad Icecream', 
       price: 1.99 
     }
-  ];
+  ])
 
-  const filteredExpenses = all_expenses.filter((expense) => {
-    return expense.date.getFullYear().toString() === filteredYear;
-  });
+const addExpenseHandler = (expense) => {
+    console.log("App sai uue kulu:", expense)
+    setExpenses((prevExpenses) => [expense, ...prevExpenses])
+  }
+
+  const filteredExpenses = expenses.filter((expense) => {
+    return expense.date.getFullYear().toString() === filteredYear
+  })
 
   const filterChangeHandler = (selectedYear) => {
-    console.log("Aasta valitud:", selectedYear);
-    setFilteredYear(selectedYear);
-  };
+    console.log("Aasta valitud:", selectedYear)
+    setFilteredYear(selectedYear)
+  }
 
   return (
     <div className="App">
+      <NewExpense onAddExpense={addExpenseHandler} />
+
       <div className="expenses">
         <ExpensesFilter
           selected={filteredYear}
@@ -67,7 +74,7 @@ function App() {
         )}
       </div>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
